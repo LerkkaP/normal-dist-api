@@ -1,6 +1,5 @@
 # functions.R
 
-#' @filter cors
 cors <- function(req, res) {
   
   res$setHeader("Access-Control-Allow-Origin", "*")
@@ -13,45 +12,51 @@ cors <- function(req, res) {
   } else {
     plumber::forward()
   }
-  
 }
 
-#* @post /area_above
-#* @serializer unboxedJSON
-#* @param value:numeric
-#* @param mean:numeric
-#* @param sd:numeric
 areaAbove <- function(value, mean, sd) {
   probability <- pnorm(as.numeric(value), as.numeric(mean), as.numeric(sd), lower.tail = FALSE)
   list(probability)
 }
 
-#* @post /area_below
-#* @serializer unboxedJSON
-#* @param value:numeric
-#* @param mean:numeric
-#* @param sd:numeric
 areaBelow <- function(value, mean, sd) {
   probability <- pnorm(as.numeric(value), as.numeric(mean), as.numeric(sd), lower.tail = TRUE)
   list(probability)  
 }
 
-#* @post /area_between
-#* @serializer unboxedJSON
-#* @param value_lower:numeric
-#* @param value_upper:numeric
-#* @param mean:numeric
-#* @param sd:numeric
 areaBetween <- function(value_lower, value_upper, mean, sd) {
   probability <-  pnorm(as.numeric(value_upper), as.numeric(mean), as.numeric(sd), lower.tail = TRUE) - pnorm(as.numeric(value_lower), as.numeric(mean), as.numeric(sd), lower.tail = TRUE)
   list(probability)  
 }
 
-#* @get /test
-#* @serializer unboxedJSON
-areaBetween <- function() {
-  list("Hello world")  
+normal <- function(mean = 0, sigma = 1) {
+  repeat {
+    x <- runif(1, -1, 1)
+    y <- runif(1, -1, 1)
+    rds <- x^2 + y^2
+    if (rds != 0 && rds < 1) break
+  }
+  c <- sqrt(-2 * log(rds) / rds)
+  return(mean + x * sigma * c)
 }
 
+gaussian <- function(x, mean = 0, sigma = 1) {
+  gaussianConstant <- 1 / sqrt(2 * pi)
+  x <- (x - mean) / sigma
+  return(gaussianConstant * exp(-0.5 * x^2) / sigma)
+}
 
+generate_data <- function(sampleSize) {
+  data <- list()
+  for (i in 1:sampleSize) {
+    q <- normal()
+    p <- gaussian(q)
+    data[[i]] <- list(q = q, p = p)
+  }
+  return(jsonlite::toJSON(data, pretty = TRUE))
+}
+
+test <- function() {
+  list("Hello world")  
+}
 
