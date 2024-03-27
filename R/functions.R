@@ -48,11 +48,12 @@ gaussian <- function(x, mean = 0, sigma = 1) {
 
 generate_data <- function(sampleSize) {
   data <- list()
-  for (i in 1:sampleSize) {
+  for (i in 1:as.numeric(sampleSize)) {
     q <- normal()
     p <- gaussian(q)
     data[[i]] <- list(q = q, p = p)
   }
+
   return(jsonlite::toJSON(data, pretty = TRUE))
 }
 

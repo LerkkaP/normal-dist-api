@@ -37,7 +37,7 @@ function(value_lower, value_upper, mean, sd) {
 
 #* @post /generate_data
 #* @serializer unboxedJSON
-#* @param sampleSize:Integer 
+#* @param sampleSize:numeric 
 function(sampleSize) {
   generate_data(sampleSize)  # Call generate_data function from functions.R
 }

@@ -1,3 +1,3 @@
 library(plumber)
-r <- plumb("routes.R")
+r <- plumb("R/routes.R")
 r$run(port=8000)
