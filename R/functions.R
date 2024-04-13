@@ -32,7 +32,7 @@ areaAbove <- function(value, mean, sd) {
 #* @param mean:numeric
 #* @param sd:numeric
 areaBelow <- function(value, mean, sd) {
-  probability <- pnorm(as.numeric(value), as.numeric(mean), as.numeric(sd), lower.tail = TRUE)
+  probability <- pnorm(as.numeric(value), as.numeric(mean), as.numeric(sd))
   list(probability)  
 }
 
@@ -43,14 +43,8 @@ areaBelow <- function(value, mean, sd) {
 #* @param mean:numeric
 #* @param sd:numeric
 areaBetween <- function(value_lower, value_upper, mean, sd) {
-  probability <-  pnorm(as.numeric(value_upper), as.numeric(mean), as.numeric(sd), lower.tail = TRUE) - pnorm(as.numeric(value_lower), as.numeric(mean), as.numeric(sd), lower.tail = TRUE)
+  probability <- diff(pnorm(c(as.numeric(value_lower), as.numeric(value_upper)), as.numeric(mean), as.numeric(sd)))
   list(probability)  
-}
-
-#* @get /test
-#* @serializer unboxedJSON
-areaBetween <- function() {
-  list("Hello world")  
 }
 
 
